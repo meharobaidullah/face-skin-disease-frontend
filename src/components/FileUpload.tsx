@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -89,6 +89,12 @@ export function FileUpload() {
     },
   });
 
+  useEffect(() => {
+    if (files.length === 0) {
+      mutation.reset();
+    }
+  }, [files.length, mutation]);
+
   const handleFileSelect = (selectedFiles: FileList | null) => {
     if (!selectedFiles) return;
 
@@ -140,25 +146,36 @@ export function FileUpload() {
   };
 
   return (
-    <Card className='w-full max-w-4xl mx-auto'>
-      <CardHeader>
-        <CardTitle>Face Skin Disease Detection</CardTitle>
-        <CardDescription>Upload one or more images to get predictions for skin diseases</CardDescription>
+    <Card className='mx-auto w-full max-w-4xl rounded-3xl border-white/70 bg-white/90 shadow-sm backdrop-blur'>
+      <CardHeader className='border-b border-rose-100/70 pb-6 text-center'>
+        <CardTitle className='text-2xl font-extrabold tracking-tight text-slate-800 md:text-3xl'>
+          Analyze Your Skin Images
+        </CardTitle>
+        <CardDescription className='mx-auto max-w-2xl text-base text-slate-600'>
+          Upload one or more images and receive model predictions with confidence scores.
+        </CardDescription>
       </CardHeader>
-      <CardContent className='space-y-6'>
+      <CardContent className='space-y-6 p-6 md:p-8'>
         {/* Drop Zone */}
         <div
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           className={cn(
-            "border-2 border-dashed rounded-lg p-8 text-center transition-colors",
-            isDragging ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-primary/50"
+            "rounded-2xl border-2 border-dashed p-8 text-center transition-colors",
+            isDragging
+              ? "border-rose-500 bg-rose-50"
+              : "border-rose-200 bg-rose-50/40 hover:border-rose-400 hover:bg-rose-50/70",
           )}
         >
-          <Upload className='mx-auto h-12 w-12 text-muted-foreground mb-4' />
-          <p className='text-sm text-muted-foreground mb-2'>Drag and drop images here, or click to select</p>
-          <Button type='button' variant='outline' onClick={() => fileInputRef.current?.click()}>
+          <Upload className='mx-auto mb-4 h-12 w-12 text-rose-500' />
+          <p className='mb-2 text-sm text-slate-600'>Drag and drop images here, or click to select</p>
+          <Button
+            type='button'
+            variant='outline'
+            onClick={() => fileInputRef.current?.click()}
+            className='border-rose-300 bg-white text-rose-700 hover:bg-rose-50'
+          >
             Select Images
           </Button>
           <input
@@ -174,12 +191,12 @@ export function FileUpload() {
         {/* File List */}
         {files.length > 0 && (
           <div className='space-y-2'>
-            <h3 className='text-sm font-medium'>Selected Files ({files.length})</h3>
+            <h3 className='text-sm font-semibold text-slate-800'>Selected Files ({files.length})</h3>
             <div className='space-y-2 max-h-60 overflow-y-auto'>
               {files.map((file, index) => (
                 <div
                   key={`${file.name}-${index}`}
-                  className='flex items-center justify-between p-3 border rounded-lg bg-muted/50'
+                  className='flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3'
                 >
                   <div className='flex items-center gap-3 flex-1 min-w-0'>
                     <div className='flex-shrink-0'>
@@ -192,8 +209,8 @@ export function FileUpload() {
                       )}
                     </div>
                     <div className='flex-1 min-w-0'>
-                      <p className='text-sm font-medium truncate'>{file.name}</p>
-                      <p className='text-xs text-muted-foreground'>{formatFileSize(file.size)}</p>
+                      <p className='text-sm font-medium truncate text-slate-800'>{file.name}</p>
+                      <p className='text-xs text-slate-500'>{formatFileSize(file.size)}</p>
                     </div>
                   </div>
                   <Button
@@ -212,7 +229,12 @@ export function FileUpload() {
         )}
 
         {/* Submit Button */}
-        <Button onClick={handleSubmit} disabled={files.length === 0 || mutation.isPending} className='w-full' size='lg'>
+        <Button
+          onClick={handleSubmit}
+          disabled={files.length === 0 || mutation.isPending}
+          className='w-full bg-rose-500 text-white hover:bg-rose-600'
+          size='lg'
+        >
           {mutation.isPending ? (
             <>
               <Loader2 className='mr-2 h-4 w-4 animate-spin' />
@@ -225,6 +247,10 @@ export function FileUpload() {
             </>
           )}
         </Button>
+
+        <p className='rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900'>
+          Disclaimer: this AI prediction can be wrong. Use it as a support tool, not a final medical diagnosis.
+        </p>
 
         {/* Results */}
         {mutation.isSuccess &&
@@ -244,27 +270,27 @@ export function FileUpload() {
             return (
               <div className='space-y-4'>
                 {/* Success Header */}
-                <div className='flex items-center gap-2 p-4 border rounded-lg bg-green-50 dark:bg-green-950/20'>
-                  <CheckCircle2 className='h-5 w-5 text-green-600 dark:text-green-400' />
-                  <h4 className='font-medium text-green-900 dark:text-green-100'>Prediction Complete</h4>
+                <div className='flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 p-4'>
+                  <CheckCircle2 className='h-5 w-5 text-emerald-600' />
+                  <h4 className='font-medium text-emerald-900'>Prediction Complete</h4>
                 </div>
 
                 {/* Main Prediction */}
-                <Card className='border-2 border-primary/20'>
+                <Card className='rounded-2xl border border-slate-200'>
                   <CardHeader className='pb-3'>
-                    <CardTitle className='text-2xl'>{data.final_prediction}</CardTitle>
-                    <CardDescription className='text-base'>{suggestions.description}</CardDescription>
+                    <CardTitle className='text-2xl text-slate-800'>{data.final_prediction}</CardTitle>
+                    <CardDescription className='text-base text-slate-600'>{suggestions.description}</CardDescription>
                   </CardHeader>
                   <CardContent className='space-y-4'>
                     {/* Confidence */}
                     <div className='space-y-2'>
                       <div className='flex items-center justify-between text-sm'>
-                        <span className='font-medium'>Confidence Level</span>
-                        <span className='text-primary font-semibold'>{(data.confidence * 100).toFixed(1)}%</span>
+                        <span className='font-medium text-slate-700'>Confidence Level</span>
+                        <span className='font-semibold text-rose-600'>{(data.confidence * 100).toFixed(1)}%</span>
                       </div>
                       <div className='w-full bg-muted rounded-full h-3 overflow-hidden'>
                         <div
-                          className='h-full bg-gradient-to-r from-primary to-primary/80 transition-all duration-500'
+                          className='h-full bg-gradient-to-r from-rose-500 to-rose-400 transition-all duration-500'
                           style={{ width: `${data.confidence * 100}%` }}
                         />
                       </div>
@@ -272,18 +298,23 @@ export function FileUpload() {
 
                     {/* All Probabilities */}
                     <div className='space-y-2'>
-                      <h5 className='text-sm font-semibold'>All Predictions</h5>
+                      <h5 className='text-sm font-semibold text-slate-800'>All Predictions</h5>
                       <div className='space-y-2'>
                         {sortedProbabilities.map(([disease, probability]) => (
                           <div key={disease} className='space-y-1'>
                             <div className='flex items-center justify-between text-sm'>
-                              <span className={cn("font-medium", disease === data.final_prediction && "text-primary")}>
+                              <span
+                                className={cn(
+                                  "font-medium text-slate-700",
+                                  disease === data.final_prediction && "text-rose-600",
+                                )}
+                              >
                                 {disease}
                               </span>
                               <span
                                 className={cn(
-                                  "text-muted-foreground",
-                                  disease === data.final_prediction && "text-primary font-semibold"
+                                  "text-slate-500",
+                                  disease === data.final_prediction && "font-semibold text-rose-600",
                                 )}
                               >
                                 {(probability * 100).toFixed(2)}%
@@ -294,8 +325,8 @@ export function FileUpload() {
                                 className={cn(
                                   "h-full transition-all duration-500",
                                   disease === data.final_prediction
-                                    ? "bg-gradient-to-r from-primary to-primary/80"
-                                    : "bg-muted-foreground/30"
+                                    ? "bg-gradient-to-r from-rose-500 to-rose-400"
+                                    : "bg-slate-300",
                                 )}
                                 style={{ width: `${probability * 100}%` }}
                               />
@@ -308,18 +339,18 @@ export function FileUpload() {
                 </Card>
 
                 {/* Helpful Suggestions */}
-                <Card className='bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900'>
+                <Card className='rounded-2xl border-sky-200 bg-sky-50'>
                   <CardHeader className='pb-3'>
                     <div className='flex items-center gap-2'>
-                      <Info className='h-5 w-5 text-blue-600 dark:text-blue-400' />
-                      <CardTitle className='text-lg text-blue-900 dark:text-blue-100'>Helpful Suggestions</CardTitle>
+                      <Info className='h-5 w-5 text-sky-600' />
+                      <CardTitle className='text-lg text-sky-900'>Helpful Suggestions</CardTitle>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <ul className='space-y-2'>
                       {suggestions.suggestions.map((suggestion, index) => (
-                        <li key={index} className='flex items-start gap-2 text-sm text-blue-900 dark:text-blue-100'>
-                          <span className='text-blue-600 dark:text-blue-400 mt-1'>•</span>
+                        <li key={index} className='flex items-start gap-2 text-sm text-sky-900'>
+                          <span className='mt-1 text-sky-600'>•</span>
                           <span>{suggestion}</span>
                         </li>
                       ))}
@@ -331,10 +362,10 @@ export function FileUpload() {
           })()}
 
         {mutation.isError && (
-          <div className='p-4 border rounded-lg bg-red-50 dark:bg-red-950/20'>
+          <div className='rounded-xl border border-red-200 bg-red-50 p-4'>
             <div className='flex items-center gap-2'>
               <AlertCircle className='h-5 w-5 text-red-600' />
-              <h4 className='font-medium text-red-900 dark:text-red-100'>
+              <h4 className='font-medium text-red-900'>
                 Error: {mutation.error instanceof Error ? mutation.error.message : "Failed to get predictions"}
               </h4>
             </div>
