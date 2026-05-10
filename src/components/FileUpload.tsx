@@ -14,43 +14,9 @@ interface PredictionResponse {
 }
 
 const diseaseSuggestions: Record<string, { description: string; suggestions: string[] }> = {
-  Acne: {
-    description: "A common skin condition that occurs when hair follicles become plugged with oil and dead skin cells.",
-    suggestions: [
-      "Keep your face clean by washing twice daily with a gentle cleanser",
-      "Avoid touching or picking at acne lesions",
-      "Use non-comedogenic (non-pore-clogging) skincare products",
-      "Consider over-the-counter treatments with benzoyl peroxide or salicylic acid",
-      "Maintain a healthy diet and stay hydrated",
-      "Consult a dermatologist if acne persists or worsens",
-    ],
-  },
-  "Actinic Keratosis": {
+  Eczema: {
     description:
-      "A rough, scaly patch on the skin caused by years of sun exposure. It's considered a precancerous condition.",
-    suggestions: [
-      "Schedule an appointment with a dermatologist for proper evaluation",
-      "Protect your skin from UV rays with broad-spectrum sunscreen (SPF 30+)",
-      "Wear protective clothing and seek shade during peak sun hours",
-      "Avoid tanning beds and excessive sun exposure",
-      "Regular skin checks are important for early detection",
-      "Treatment options may include cryotherapy, topical medications, or other procedures",
-    ],
-  },
-  "Basal Cell Carcinoma": {
-    description:
-      "The most common type of skin cancer. It typically appears as a slightly transparent bump on the skin.",
-    suggestions: [
-      "Seek immediate medical attention from a dermatologist",
-      "Early detection and treatment are crucial for successful outcomes",
-      "Protect your skin from UV radiation with sunscreen and protective clothing",
-      "Regular skin self-examinations are recommended",
-      "Follow your dermatologist's treatment plan closely",
-      "Avoid excessive sun exposure and tanning beds",
-    ],
-  },
-  Eczemaa: {
-    description: "A condition that makes your skin red and itchy. It's common in children but can occur at any age.",
+      "A chronic inflammatory condition that makes your skin red, itchy, and sensitive. It commonly appears in patches and can occur at any age.",
     suggestions: [
       "Moisturize your skin regularly with fragrance-free creams or ointments",
       "Identify and avoid triggers such as certain soaps, detergents, or fabrics",
@@ -60,16 +26,112 @@ const diseaseSuggestions: Record<string, { description: string; suggestions: str
       "Consider consulting a dermatologist for prescription treatments if needed",
     ],
   },
-  Rosacea: {
+  "Viral Infections": {
     description:
-      "A chronic skin condition that causes redness and visible blood vessels in your face. It may also produce small, red, pus-filled bumps.",
+      "Skin infections caused by viral pathogens, which can manifest as blisters, rashes, or lesions. Common viral skin infections include herpes simplex and varicella.",
     suggestions: [
-      "Identify and avoid triggers such as spicy foods, alcohol, hot beverages, and extreme temperatures",
-      "Use gentle, fragrance-free skincare products designed for sensitive skin",
+      "Keep the affected area clean and dry",
+      "Avoid touching or scratching the infected area to prevent spread",
+      "Use antiviral medications as prescribed by a dermatologist",
+      "Avoid contact with others to prevent transmission",
+      "Maintain good hygiene practices and wash hands frequently",
+      "Consult a dermatologist for proper diagnosis and treatment options",
+    ],
+  },
+  Melanoma: {
+    description:
+      "The most serious type of skin cancer. It develops from melanocytes (pigment-producing cells) and can spread to other parts of the body if not treated early.",
+    suggestions: [
+      "Seek immediate medical attention from an oncologist or dermatologist",
+      "Early detection and treatment are critical for survival",
+      "Do not delay seeking professional medical evaluation",
+      "Protect your skin from UV radiation with broad-spectrum sunscreen (SPF 50+)",
+      "Perform regular skin self-examinations and monitor for changes",
+      "Avoid sun exposure and use protective clothing and hats",
+    ],
+  },
+  "Atopic Dermatitis": {
+    description:
+      "A chronic inflammatory skin condition characterized by intense itching, redness, and dry skin. It commonly appears on the face, hands, and other body areas.",
+    suggestions: [
+      "Use hypoallergenic moisturizers daily to maintain skin barrier",
+      "Identify and avoid personal triggers like certain soaps or fragrances",
+      "Avoid hot water; use lukewarm water for bathing",
+      "Wear soft, breathable clothing to minimize irritation",
+      "Apply topical corticosteroids or other prescribed medications as directed",
+      "Consult a dermatologist if symptoms worsen or don't improve",
+    ],
+  },
+  "Basal Cell Carcinoma": {
+    description:
+      "The most common type of skin cancer. It typically appears as a translucent, waxy, or pearly bump on the skin, often with a central depression.",
+    suggestions: [
+      "Seek immediate medical attention from a dermatologist",
+      "Early detection and treatment significantly improve outcomes",
+      "Protect your skin from UV radiation with sunscreen and protective clothing",
+      "Perform regular skin self-examinations",
+      "Follow your dermatologist's treatment plan closely",
+      "Avoid excessive sun exposure and tanning beds",
+    ],
+  },
+  "Melanocytic Nevi": {
+    description:
+      "Commonly known as moles, these are benign skin growths composed of melanocytes. Most people have multiple nevi that are typically harmless.",
+    suggestions: [
+      "Monitor nevi for changes using the ABCDE rule (Asymmetry, Border, Color, Diameter, Evolution)",
       "Protect your skin from sun exposure with broad-spectrum sunscreen",
-      "Avoid harsh scrubs and exfoliants that can irritate the skin",
-      "Consider consulting a dermatologist for prescription treatments",
-      "Manage stress as it can trigger flare-ups",
+      "Perform regular self-examinations and note any changes",
+      "Consult a dermatologist if you notice rapid growth or changes",
+      "Avoid unnecessary sun exposure, especially during peak hours",
+      "Seek professional evaluation if a mole becomes painful or itchy",
+    ],
+  },
+  "Keratosis-like Lesions": {
+    description:
+      "Benign skin growths that appear raised and may have a waxy, scaly, or warty appearance. They are generally harmless but can sometimes be cosmetically concerning.",
+    suggestions: [
+      "Monitor lesions for any changes in size, color, or appearance",
+      "Protect your skin from sun exposure with broad-spectrum sunscreen",
+      "Avoid picking or scratching at the lesions",
+      "Consult a dermatologist for proper diagnosis and confirmation",
+      "Removal is optional and can be done for cosmetic reasons",
+      "Follow professional guidance if lesions become irritated or inflamed",
+    ],
+  },
+  "Psoriasis & Lichen Planus": {
+    description:
+      "Chronic inflammatory skin conditions. Psoriasis presents with red, scaly patches, while lichen planus appears as small, flat, purplish bumps or lines.",
+    suggestions: [
+      "Keep your skin moisturized with fragrance-free products",
+      "Identify and manage stress, as it can trigger flare-ups",
+      "Avoid harsh soaps and use lukewarm water for bathing",
+      "Protect affected areas from injury and irritation",
+      "Use prescribed topical treatments such as corticosteroid creams",
+      "Consult a dermatologist about systemic treatments if needed",
+    ],
+  },
+  "Seborrheic Keratoses": {
+    description:
+      "Common benign skin growths that typically appear in older adults. They have a waxy, scaly appearance and are usually brown, black, or tan.",
+    suggestions: [
+      "Monitor lesions for any changes, though they are typically benign",
+      "Avoid picking or scratching at the growths",
+      "Protect your skin from sun exposure with broad-spectrum sunscreen",
+      "Removal is optional and can be done for cosmetic or comfort reasons",
+      "Consult a dermatologist if lesions become irritated or inflamed",
+      "Regular skin checks help ensure lesions remain stable",
+    ],
+  },
+  "Fungal Infections": {
+    description:
+      "Skin infections caused by fungal organisms such as dermatophytes. Common types include athlete's foot, ringworm, and yeast infections.",
+    suggestions: [
+      "Keep the affected area clean and dry",
+      "Use antifungal creams or ointments as prescribed",
+      "Avoid wearing tight clothing over infected areas",
+      "Change socks and underwear if they become damp",
+      "Avoid sharing personal items like towels or nail clippers",
+      "Consult a dermatologist if the infection persists or spreads",
     ],
   },
 };
@@ -297,44 +359,57 @@ export function FileUpload() {
                     </div>
 
                     {/* All Probabilities */}
-                    <div className='space-y-2'>
-                      <h5 className='text-sm font-semibold text-slate-800'>All Predictions</h5>
-                      <div className='space-y-2'>
-                        {sortedProbabilities.map(([disease, probability]) => (
-                          <div key={disease} className='space-y-1'>
-                            <div className='flex items-center justify-between text-sm'>
-                              <span
-                                className={cn(
-                                  "font-medium text-slate-700",
-                                  disease === data.final_prediction && "text-rose-600",
-                                )}
-                              >
-                                {disease}
-                              </span>
-                              <span
-                                className={cn(
-                                  "text-slate-500",
-                                  disease === data.final_prediction && "font-semibold text-rose-600",
-                                )}
-                              >
-                                {(probability * 100).toFixed(2)}%
-                              </span>
-                            </div>
-                            <div className='w-full bg-muted rounded-full h-2 overflow-hidden'>
-                              <div
-                                className={cn(
-                                  "h-full transition-all duration-500",
-                                  disease === data.final_prediction
-                                    ? "bg-gradient-to-r from-rose-500 to-rose-400"
-                                    : "bg-slate-300",
-                                )}
-                                style={{ width: `${probability * 100}%` }}
-                              />
+                    {(() => {
+                      const filteredProbabilities = sortedProbabilities.filter(
+                        ([, probability]) => (probability * 100).toFixed(2) !== "0.00"
+                      );
+                      const hasFullConfidence = filteredProbabilities.some(
+                        ([, probability]) => (probability * 100).toFixed(2) === "100.00"
+                      );
+
+                      return (
+                        !hasFullConfidence && (
+                          <div className='space-y-2'>
+                            <h5 className='text-sm font-semibold text-slate-800'>All Predictions</h5>
+                            <div className='space-y-2'>
+                              {filteredProbabilities.map(([disease, probability]) => (
+                                <div key={disease} className='space-y-1'>
+                                  <div className='flex items-center justify-between text-sm'>
+                                    <span
+                                      className={cn(
+                                        "font-medium text-slate-700",
+                                        disease === data.final_prediction && "text-rose-600",
+                                      )}
+                                    >
+                                      {disease}
+                                    </span>
+                                    <span
+                                      className={cn(
+                                        "text-slate-500",
+                                        disease === data.final_prediction && "font-semibold text-rose-600",
+                                      )}
+                                    >
+                                      {(probability * 100).toFixed(2)}%
+                                    </span>
+                                  </div>
+                                  <div className='w-full bg-muted rounded-full h-2 overflow-hidden'>
+                                    <div
+                                      className={cn(
+                                        "h-full transition-all duration-500",
+                                        disease === data.final_prediction
+                                          ? "bg-gradient-to-r from-rose-500 to-rose-400"
+                                          : "bg-slate-300",
+                                      )}
+                                      style={{ width: `${probability * 100}%` }}
+                                    />
+                                  </div>
+                                </div>
+                              ))}
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    </div>
+                        )
+                      );
+                    })()}
                   </CardContent>
                 </Card>
 
